@@ -1,27 +1,16 @@
 version: "3.9"
 
 services:
-  db:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5433:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-
   api:
     build: .
     ports:
       - "${PORT}:${PORT}"
-    depends_on:
-      - db
     env_file:
       - .env
+    networks:
+      - lesson-docker_default
     restart: always
 
-volumes:
-  db-data:
+networks:
+  lesson-docker_default:
+    external: true
