@@ -5,9 +5,9 @@ services:
     image: postgres:15
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 4961025Ir
-      POSTGRES_DB: lesson_docker
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5433:5432"
     volumes:
@@ -16,7 +16,7 @@ services:
   api:
     build: .
     ports:
-      - "7777:7777"
+      - "${PORT}:${PORT}"
     depends_on:
       - db
     env_file:

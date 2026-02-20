@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("./db"); // Import the database pool
-
+const dotenv = require("dotenv");
+dotenv.config();
 const app = express();
 const port = process.env.PORT ;
 
@@ -42,4 +43,6 @@ app.post("/users", async (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+  console.log(`Database connected: ${pool.options.database}`);
+  console.log(`Server url: http://localhost:${port}`);
 });
