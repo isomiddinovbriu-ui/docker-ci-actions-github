@@ -1,0 +1,49 @@
+name: Build and Deploy Docker App
+
+on:
+  push:
+    branches:
+      - main   # Faqat main branchga push bo‘lsa ishga tushadi
+
+env:
+  DOCKER_IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1️⃣ Reponi checkout qilish
+        uses: actions/checkout@v4
+
+      - name: 2️⃣ Docker registry login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 3️⃣ Docker image build qilish
+        run: docker build -t $DOCKER_IMAGE .
+
+      - name: 4️⃣ Docker image push qilish
+        run: docker push $DOCKER_IMAGE
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1️⃣ Serverga SSH orqali ulanish va deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            cd /home/project/your-app
+            docker pull $DOCKER_IMAGE
+            docker-compose up -d --build
