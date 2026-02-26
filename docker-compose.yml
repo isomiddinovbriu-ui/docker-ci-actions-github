@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   docker_ci_gitlab: #bu container nomi 
-    image: ${DOCKER_IMAGE} # GitLab-dan keladigan imidj nomi
+    image: ghcr.io/${{ github.repository }}:${{ github.sha }} # GitLab-dan keladigan imidj nomi
     # Agar serverda docker-compose.yml ichida:
     #build: .    #Bu yana serverda build qiladi.
     #image: registry.gitlab.com/user/app:main    #Shunda server build qilmaydi.
