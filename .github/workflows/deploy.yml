@@ -44,6 +44,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.CR_PAT  }}
-            cd /home/project/your-app
+            cd //root/docker-ci-actions-github
             docker pull $DOCKER_IMAGE
             docker-compose up -d --build
