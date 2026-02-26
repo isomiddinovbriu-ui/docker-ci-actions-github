@@ -1,16 +1,18 @@
 version: "3.9"
-
 services:
-  api:
-    build: .
+  docker_ci_gitlab: #bu container nomi 
+    image: ${DOCKER_IMAGE} # GitLab-dan keladigan imidj nomi
+    # Agar serverda docker-compose.yml ichida:
+    #build: .    #Bu yana serverda build qiladi.
+    #image: registry.gitlab.com/user/app:main    #Shunda server build qilmaydi.
     ports:
-      - "${PORT}:${PORT}"
+      - "7777:7777"
     env_file:
       - .env
-    networks:
-      - lesson-docker_default
     restart: always
+    networks:
+      - lesson-docker_default    # docker network create lesson-docker_default buyrug'ini ishga tushirgan bo'lishingiz shart.
 
 networks:
   lesson-docker_default:
-    external: true
+    external: true #   Docker-da oldindan mavjud bo'lishi kerakligini bildiradi.
