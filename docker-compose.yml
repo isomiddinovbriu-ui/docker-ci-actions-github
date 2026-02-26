@@ -6,7 +6,7 @@ services:
     #build: .    #Bu yana serverda build qiladi.
     #image: registry.gitlab.com/user/app:main    #Shunda server build qilmaydi.
     ports:
-      - "7777:7777"
+      - "1221:7777"
     env_file:
       - .env
     restart: always
