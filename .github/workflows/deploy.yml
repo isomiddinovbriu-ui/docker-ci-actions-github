@@ -41,7 +41,8 @@ jobs:
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: |
+            ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.CR_PAT  }}
             cd //root/docker-ci-actions-github
